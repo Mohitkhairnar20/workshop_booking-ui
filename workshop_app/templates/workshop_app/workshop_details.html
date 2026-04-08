@@ -5,80 +5,94 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <table class="table table-bordered">
-            <tr>
-                <th><label for="id_first_name">Workshop Type :</label></th>
-                <td><label for="id_first_name"><a
-                        href="{% url 'workshop_app:workshop_type_details' workshop.workshop_type_id %}">{{ workshop.workshop_type }}</a></label>
-                </td>
-            </tr>
-            <tr>
-                <th><label for="id_last_name">Date :</label></th>
-                <td><label for="id_last_name">{{ workshop.date }}</label></td>
-            </tr>
-            <tr>
-                <th><label for="id_email">Coordinator :</label></th>
-                <td><label for="id_email">{{ workshop.coordinator.get_full_name|title }}</label>
-                </td>
-            </tr>
-            {% if workshop.status %}
-                <tr>
-                    <th><label for="id_institute">Status :</label></th>
-                    <td><span class="badge badge-success">{{ workshop.get_status }}</span></td>
-                </tr>
-                <tr>
-                    <th><label for="id_phone_number">Instructor :</label></th>
-                    <td><label for="id_email">{{ workshop.instructor.get_full_name|title }}</label>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <th><label for="id_institute">Status :</label></th>
-                    <td><span class="badge badge-warning">{{ workshop.get_status }}</span></td>
-                </tr>
-            {% endif %}
-        </table>
-        <br>
-        <div class="container">
-            <div class="card mt-2 mb-5">
-                <form method="post">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="mx-3 font-weight-bold">Post a comment</div>
-                            {% if request.user.profile.position == 'instructor' %}
-                                <div class="ml-5">{{ form.public }} Public</div>
-                                <div class="ml-1 text-muted">(Non-public comments are visible only to instructors)</div>
+    <section class="detail-card p-4 p-md-5 mb-4">
+        <span class="eyebrow">Workshop status</span>
+        <h1 class="section-heading mb-2">{{ workshop.workshop_type }}</h1>
+        <p class="section-copy mb-4">See the workshop summary and keep discussion tied to the booking itself.</p>
+
+        <div class="table-responsive-card">
+            <table class="table table-bordered mb-0">
+                <tbody>
+                    <tr>
+                        <th>Workshop Type</th>
+                        <td><a href="{% url 'workshop_app:workshop_type_details' workshop.workshop_type_id %}">{{ workshop.workshop_type }}</a></td>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <td>{{ workshop.date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Coordinator</th>
+                        <td>{{ workshop.coordinator.get_full_name|title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>
+                            {% if workshop.status %}
+                                <span class="badge badge-success">{{ workshop.get_status }}</span>
+                            {% else %}
+                                <span class="badge badge-warning">{{ workshop.get_status }}</span>
                             {% endif %}
-                        </div>
+                        </td>
+                    </tr>
+                    {% if workshop.status %}
+                        <tr>
+                            <th>Instructor</th>
+                            <td>{{ workshop.instructor.get_full_name|title }}</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="card mb-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="card-header">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                    <div>
+                        <h2 class="h5 mb-1">Post a comment</h2>
+                        <p class="text-muted mb-0">Keep workshop notes and updates in one thread.</p>
                     </div>
-                    <div class="card-body">
-                        {{ form.comment }}
-                    </div>
-                    <button type="submit" class="float-right btn btn-primary btn-md m-2">Post</button>
-                </form>
+                    {% if request.user.profile.position == 'instructor' %}
+                        <label class="mb-0 mt-3 mt-md-0 d-flex align-items-center">
+                            {{ form.public }}
+                            <span class="ml-2">Visible to coordinators</span>
+                        </label>
+                    {% endif %}
+                </div>
             </div>
-            <br><br>
-            <h2 class="text-center">Comments</h2>
-            <br>
-            {% for comment in workshop_comments %}
-                <div class="card my-2">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="ml-3 font-weight-bold"><a
-                                    href="{% url 'workshop_app:view_profile' comment.author_id %}">{{ comment.author }}</a></div>
-                            {% if not comment.public %}
-                                <div class="ml-1"><span class="badge badge-dark">Hidden</span></div>
-                            {% endif %}
-                            <div class="ml-3 text-muted">{{ comment.created_date }}</div>
+            <div class="card-body">
+                {{ form.comment }}
+            </div>
+            <div class="px-4 pb-4">
+                <button type="submit" class="btn btn-primary">Post comment</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="table-card p-3 p-md-4">
+        <h2 class="h4 text-center mb-4">Comments</h2>
+        {% for comment in workshop_comments %}
+            <article class="card my-3">
+                <div class="card-header">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center">
+                        <div class="font-weight-bold">
+                            <a href="{% url 'workshop_app:view_profile' comment.author_id %}">{{ comment.author }}</a>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <p>{{ comment.comment }}</p>
+                        {% if not comment.public %}
+                            <div class="mt-2 mt-md-0 ml-md-2"><span class="badge badge-dark">Instructor only</span></div>
+                        {% endif %}
+                        <div class="text-muted mt-2 mt-md-0 ml-md-3">{{ comment.created_date }}</div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-    </div>
-
+                <div class="card-body">
+                    <p class="mb-0">{{ comment.comment }}</p>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state">No comments yet. Start the discussion with a workshop note or update.</div>
+        {% endfor %}
+    </section>
 {% endblock %}

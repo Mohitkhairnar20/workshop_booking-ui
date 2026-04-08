@@ -5,28 +5,39 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2 class="text-center m-3">Workshop Details</h2>
-        <table class="table table-hover">
-            <tr class="d-flex">
-                <th class="col-3">Workshop Name :</th>
-                <td class="col">{{ workshop_type.name }}</td>
-            </tr>
-            <tr class="d-flex">
-                <th class="col-3">Duration :</th>
-                <td class="col">{{ workshop_type.duration }} day(s)</td>
-            </tr>
-            <tr class="d-flex">
-                <th class="col-3">Description :</th>
-                <td class="col">{{ workshop_type.description }}</td>
-            </tr>
-            <tr class="d-flex">
-                <th class="col-3">Terms and Conditions :</th>
-                <td class="col">{{ workshop_type.terms_and_conditions }}</td>
-            </tr>
-        </table>
-    </div>
+    <section class="detail-card p-4 p-md-5">
+        <span class="eyebrow">Workshop information</span>
+        <h1 class="section-heading mb-2">{{ workshop_type.name }}</h1>
+        <p class="section-copy mb-4">Review the format, expected duration, and booking conditions before proposing a date.</p>
 
+        <div class="stats-grid mb-4">
+            <div class="stat-card">
+                <div class="stat-value">{{ workshop_type.duration }}</div>
+                <div class="stat-label">Day{{ workshop_type.duration|pluralize }} required</div>
+            </div>
+        </div>
+
+        <div class="table-responsive-card">
+            <table class="table table-hover">
+                <tbody>
+                    <tr class="d-flex">
+                        <th class="col-sm-4">Workshop Name</th>
+                        <td class="col-sm-8">{{ workshop_type.name }}</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th class="col-sm-4">Duration</th>
+                        <td class="col-sm-8">{{ workshop_type.duration }} day{{ workshop_type.duration|pluralize }}</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th class="col-sm-4">Description</th>
+                        <td class="col-sm-8">{{ workshop_type.description }}</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th class="col-sm-4">Terms and Conditions</th>
+                        <td class="col-sm-8">{{ workshop_type.terms_and_conditions }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 {% endblock %}
-
-

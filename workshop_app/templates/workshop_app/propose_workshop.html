@@ -26,95 +26,109 @@
                 minDate: dateToday,
                 maxDate: upto,
                 beforeShowDay: $.datepicker.noWeekends,
+                dateFormat: "yy-mm-dd"
             });
 
-
             $('#disp_tnc').click(function (e) {
-                e.preventDefault()
-                if ($('#id_workshop_type').val() === '')
-                    $('.modal-body').html("<p class='text-danger'>Please select a workshop type</p>")
-                else {
+                e.preventDefault();
+                if ($('#id_workshop_type').val() === '') {
+                    $('.modal-body').html("<p class='text-danger mb-0'>Please select a workshop type first.</p>");
+                } else {
                     $.ajax({
                         url: '/workshop/type_tnc/' + $('#id_workshop_type').val(),
                         success: function (data) {
-                            $('.modal-body').html(data.tnc)
+                            $('.modal-body').html(data.tnc);
                         }
-                    })
+                    });
                 }
-            })
+            });
         });
     </script>
 {% endblock %}
 
-
 {% block content %}
-    <style type="text/css">
-        .errorlist {
-            color: red;
-        }
-
-    .modal-open .modal{
-        overflow-y: hidden;
-    }
-    </style>
-
-    <div class="container" align="center">
-        <div class="alert alert-info">
-            Note: Before proposing the workshop, please check about the workshop in the
-            <strong>Workshop Types</strong> section
-        </div>
-        <br><br>
-        <div class="col-md-6 col-md-offset-6">
-            <div class="card border-primary">
-                <div class="card-header">
-                    <h3>Propose Workshop</h3>
+    <section class="hero-shell p-4 p-md-5">
+        <div class="row align-items-start">
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <span class="eyebrow">Booking flow</span>
+                <h1 class="section-heading">Propose a workshop in a few clear steps.</h1>
+                <p class="section-copy">
+                    This flow is optimized for coordinators who may be filling the form on a phone between classes.
+                    Choose a workshop type, pick an eligible date, and confirm the terms.
+                </p>
+                <div class="feature-grid mt-4">
+                    <div class="stat-card">
+                        <div class="font-weight-bold mb-1">Step 1</div>
+                        <div class="stat-label">Review the workshop type before choosing a date.</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="font-weight-bold mb-1">Step 2</div>
+                        <div class="stat-label">Pick a weekday at least three days in advance.</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="font-weight-bold mb-1">Step 3</div>
+                        <div class="stat-label">Accept the terms so instructors can review your request.</div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="form-group">
+            </div>
+            <div class="col-lg-7">
+                <div class="card border-0">
+                    <div class="card-header">
+                        <div class="alert alert-info mb-0">
+                            Before proposing a workshop, review the details in the
+                            <strong>Workshop Types</strong> section.
+                        </div>
+                    </div>
+                    <div class="card-body">
                         <form method="post">
                             {% csrf_token %}
-                            <br/>
-                            {{ form.workshop_type }}
-                            <br>
-                            {{ form.date }}
-                            <br>
-                            {{ form.tnc_accepted }} I accept the
-                            <a href="#" id="disp_tnc" data-toggle="modal"
-                            data-target="#exampleModalCenter">
-                                terms and conditions
-                            </a>
-                            <br>
+                            <div class="form-group">
+                                <label for="{{ form.workshop_type.id_for_label }}">Workshop type</label>
+                                {{ form.workshop_type }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.date.id_for_label }}">Preferred date</label>
+                                {{ form.date }}
+                            </div>
+                            <div class="form-group">
+                                <div class="d-flex align-items-start">
+                                    {{ form.tnc_accepted }}
+                                    <label for="{{ form.tnc_accepted.id_for_label }}" class="mb-0 ml-2">
+                                        I accept the
+                                        <a href="#" id="disp_tnc" data-toggle="modal" data-target="#exampleModalCenter">
+                                            terms and conditions
+                                        </a>
+                                    </label>
+                                </div>
+                            </div>
                             {% if form.errors %}
-                                <br>
-                                <div style="text-align: left; border: 1px solid red; padding-top: 5px">
-                                    <h5 style="text-align: center; color: red; font-weight: bolder">Errors</h5>
+                                <div class="alert alert-danger">
+                                    <h5 class="h6 font-weight-bold mb-2">Please fix the following issues:</h5>
                                     {{ form.errors }}
                                 </div>
                             {% endif %}
-                            <br>
-                            <button class="btn btn-success" type="submit">Submit</button>
+                            <div class="d-flex flex-column flex-md-row">
+                                <button class="btn btn-success mr-md-3 mb-3 mb-md-0" type="submit">Submit proposal</button>
+                                <a class="btn btn-light" href="{% url 'workshop_app:workshop_type_list' %}">Browse workshop types</a>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <br>
+    </section>
 
-    </div>
-    <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Terms and Conditions</h5>
+                    <h2 class="modal-title h5 mb-0" id="exampleModalLongTitle">Terms and Conditions</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-
-                </div>
+                <div class="modal-body"></div>
             </div>
         </div>
     </div>
