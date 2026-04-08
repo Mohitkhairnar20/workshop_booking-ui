@@ -45,6 +45,29 @@ class UserRegistrationForm(forms.Form):
     state = forms.ChoiceField(choices=states)
     how_did_you_hear_about_us = forms.ChoiceField(choices=source)
 
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
+        text_placeholders = {
+            'username': 'Choose a username',
+            'email': 'name@college.edu',
+            'password': 'Create a password',
+            'confirm_password': 'Re-enter your password',
+            'first_name': 'First name',
+            'last_name': 'Last name',
+            'phone_number': '10-digit mobile number',
+            'institute': 'Institute or organization',
+            'location': 'City or town',
+        }
+        select_fields = {'title', 'department', 'state', 'how_did_you_hear_about_us'}
+        for name, field in self.fields.items():
+            css_class = 'form-control'
+            if name in select_fields:
+                css_class = 'custom-select'
+            field.widget.attrs.update({'class': css_class})
+            if name in text_placeholders:
+                field.widget.attrs.update({'placeholder': text_placeholders[name]})
+
     def clean_username(self):
         u_name = self.cleaned_data["username"]
         if u_name.strip(UNAME_CHARS):
@@ -138,6 +161,7 @@ class WorkshopForm(forms.ModelForm):
         self.fields['tnc_accepted'].required = True
         self.fields['workshop_type'].label = "Workshop :"
         self.fields['date'].label = "Workshop Date :"
+        self.fields['workshop_type'].empty_label = "Choose a workshop type"
 
     class Meta:
         model = Workshop

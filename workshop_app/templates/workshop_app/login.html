@@ -5,19 +5,44 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-md-offset-6">
-                <div class="card">
-                    <div class="card-body">
-                        <form class="px-3 py-3" method="post">
+    <section class="hero-shell">
+        <div class="row no-gutters">
+            <div class="col-lg-6 p-4 p-md-5">
+                <span class="eyebrow">Workshop coordination made simple</span>
+                <h1 class="section-heading">Book campus workshops with less back-and-forth.</h1>
+                <p class="section-copy">
+                    FOSSEE Workshop Booking helps coordinators discover workshop formats, propose dates,
+                    and track approvals from one place. The experience is designed to stay clear and
+                    usable on small screens first.
+                </p>
+                <div class="stats-grid mt-4">
+                    <div class="stat-card">
+                        <div class="stat-value">Mobile</div>
+                        <div class="stat-label">Readable, thumb-friendly navigation for students and coordinators</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">Faster</div>
+                        <div class="stat-label">Server-rendered flow with lightweight enhancements</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">Clear</div>
+                        <div class="stat-label">Strong hierarchy for proposing, tracking, and managing bookings</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 p-4 p-md-5 d-flex align-items-center">
+                <div class="auth-card w-100 p-4 p-md-5">
+                    <div class="pill-badge mb-3">Coordinator and instructor sign in</div>
+                    <h2 class="h3 font-weight-bold mb-2">Welcome back</h2>
+                    <p class="lede mb-4">Use your FOSSEE workshop account to continue managing workshops.</p>
+                    <form method="post">
                         {% csrf_token %}
                         {% if form.errors %}
                             {% for field in form %}
                                 {% for error in field.errors %}
                                     <div class="alert alert-dismissible alert-danger">
-                                        <button type="button" class="close" data-dismiss="alert">
-                                            <i class="fa fa-close"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
                                         </button>
                                         <strong>{{ error|escape }}</strong>
                                     </div>
@@ -25,29 +50,29 @@
                             {% endfor %}
                             {% for error in form.non_field_errors %}
                                 <div class="alert alert-dismissible alert-danger">
-                                    <button type="button" class="close" data-dismiss="alert">
-                                        <i class="fa fa-close"></i>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
                                     </button>
                                     <strong>{{ error|escape }}</strong>
                                 </div>
                             {% endfor %}
                         {% endif %}
                         <div class="form-group">
-                          <label for="id_username">Username</label>
-                          {{ form.username }}
+                            <label for="id_username">Username</label>
+                            {{ form.username }}
                         </div>
                         <div class="form-group">
-                          <label for="id_password">Password</label>
-                          {{ form.password }}
+                            <label for="id_password">Password</label>
+                            {{ form.password }}
                         </div>
                         <button type="submit" class="btn btn-primary">Sign in</button>
-                        </form>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'workshop_app:register' %}">New around here? Sign up</a>
-                        <a class="dropdown-item" href="{% url 'password_reset' %}">Forgot password?</a>
+                    </form>
+                    <div class="mt-4 pt-3 border-top">
+                        <a class="d-block mb-2" href="{% url 'workshop_app:register' %}">New around here? Create an account</a>
+                        <a class="d-block" href="{% url 'password_reset' %}">Forgot password?</a>
                     </div>
-                </div>  
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
