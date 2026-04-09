@@ -54,23 +54,27 @@ The most challenging part was balancing the React requirement with the actual st
 
 ### Login page
 
-Before:
+<p>
+  <strong>Before</strong>
+</p>
+<img src="docs/screenshots/before-login.png" alt="Before login" width="420" />
 
-![Before login](docs/screenshots/before-login.png)
-
-After:
-
-![After login](docs/screenshots/after-login.png)
+<p>
+  <strong>After</strong>
+</p>
+<img src="docs/screenshots/after-login.png" alt="After login" width="420" />
 
 ### Workshop types page
 
-Before:
+<p>
+  <strong>Before</strong>
+</p>
+<img src="docs/screenshots/before-types.png" alt="Before workshop types" width="420" />
 
-![Before workshop types](docs/screenshots/before-types.png)
-
-After:
-
-![After workshop types](docs/screenshots/after-types.png)
+<p>
+  <strong>After</strong>
+</p>
+<img src="docs/screenshots/after-types.png" alt="After workshop types" width="420" />
 
 ## Notes
 
