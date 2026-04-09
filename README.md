@@ -56,25 +56,25 @@ The most challenging part was balancing the React requirement with the actual st
 
 Before:
 
-![Before login](/Users/Mohit%20Khairnar/Desktop/workshop_booking/docs/screenshots/before-login.png)
+![Before login](docs/screenshots/before-login.png)
 
 After:
 
-![After login](/Users/Mohit%20Khairnar/Desktop/workshop_booking/docs/screenshots/after-login.png)
+![After login](docs/screenshots/after-login.png)
 
 ### Workshop types page
 
 Before:
 
-![Before workshop types](/Users/Mohit%20Khairnar/Desktop/workshop_booking/docs/screenshots/before-types.png)
+![Before workshop types](docs/screenshots/before-types.png)
 
 After:
 
-![After workshop types](/Users/Mohit%20Khairnar/Desktop/workshop_booking/docs/screenshots/after-types.png)
+![After workshop types](docs/screenshots/after-types.png)
 
 ## Notes
 
 - `python manage.py check` passes.
 - `python manage.py test workshop_app.tests` fails in the current repository because the existing test files import symbols that are already missing from the project (`RequestedWorkshop` and `edit_profile`). I did not change those tests as part of this UI/UX task.
 
-More project setup details are available in [docs/Getting_Started.md](/Users/Mohit%20Khairnar/Desktop/workshop_booking/docs/Getting_Started.md).
+More project setup details are available in `docs/Getting_Started.md`.
